@@ -4,7 +4,7 @@ import personService from './services/persons'
 const Filter = ({value, onChange}) => {
   return (
     <div>
-      Filter shown with 
+      Filter shown with
       <input 
         value={value}
         onChange={onChange}
@@ -68,11 +68,24 @@ const Person = ({person, handleDelete}) => {
   )
 }
 
+const Message = ({message}) => {
+  if(message === null) {
+    return null
+  }
+
+  return (
+    <div className="message">
+      {message}
+    </div>
+  )
+}  
+
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ search, setSearch ] = useState('')
+  const [ message, setMessage ] = useState(null)
 
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
@@ -102,6 +115,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          displayMessage(`Added ${returnedPerson.name}`)
         })
     }
   }
@@ -121,9 +135,18 @@ const App = () => {
     person => person.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 
   )
 
+  const displayMessage = (message) => {
+    setMessage(message)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Message message={message} />
+
       <Filter
         value={search}
         onChange={handleSearchChange}
