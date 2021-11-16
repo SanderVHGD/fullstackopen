@@ -117,6 +117,9 @@ const App = () => {
           setNewNumber('')
           displayMessage(`Added ${returnedPerson.name}`)
         })
+        .catch(error => {
+          displayMessage(error.response.data)
+        })
     }
   }
 
